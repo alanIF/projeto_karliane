@@ -1,6 +1,13 @@
-library(DMwR)
-library(e1071)
-# variaveis globais para guardar no arquivo de resultados
+# PROBLEMAS A RESOLVER: 
+# ta dando nas bases iris e cleveland com taxa de 5 %
+
+
+
+
+
+
+#variaveis globais para guardar no arquivo de resultados
+
 it_g <-c() 
 bd_g <-c()
 thrConf_g<-c()
@@ -10,9 +17,11 @@ acc_g <- c()
 bd <- c()
 tx <- c()
 #
+source('C:/local_R/projeto_karliane/nayves_bayes/configuracoes.R')
+
 source('C:/local_R/projeto_karliane/nayves_bayes/funcoes.R')
-for(i in 1:1){
-  for(j in 2:5){
+for(i in 5:5){
+  for(j in 1:1){
     if(j==1){
       taxa=5
     }
