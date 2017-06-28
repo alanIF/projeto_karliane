@@ -1,19 +1,7 @@
-#fun??o que ser? passada como par?metro predFunc da fun??o selftrain
-f <- function(m,d) {
-  l <- predict(m,d,type='class')
-  c <- apply(predict(m,d),1,max)
-  data.frame(cl=l,p=c)
-}
-
-#mesma funcao para naive bayes
 func <- function(m, d){
   p <- predict(m, d, type = "raw")
   data.frame(c1=colnames(p)[apply(p,1,which.max)], p = apply(p,1,max))
 }
-
-
-#funcao selfTrain adaptada
-
 funcSelfTrain <- function(form,data,
                           learner,
                           predFunc,
@@ -30,11 +18,11 @@ funcSelfTrain <- function(form,data,
   sup <- which(!is.na(data[,as.character(form[[2]])])) #sup recebe o indice de todos os exemplos rotulados
   repeat {
     it <- it+1
-
+    
     if (it>1) thrConf <- (thrConf + (soma_Conf/qtd_Exemplos_Rot) + (qtd_Exemplos_Rot/N))/3
     soma_Conf <- 0
     qtd_Exemplos_Rot <- 0
-
+    
     model <- runLearner(learner,form,data[sup,])
     probPreds <- do.call(predFunc,list(model,data[-sup,]))
     new <- which(probPreds[,2] > thrConf)
@@ -55,10 +43,11 @@ funcSelfTrain <- function(form,data,
       soma_Conf <- sum(soma_Conf, probPreds[new,2])
       qtd_Exemplos_Rot <- length(data[(1:N)[-sup][new],as.character(form[[2]])])
       totalrot <- totalrot + qtd_Exemplos_Rot
-
+      
       sup <- c(sup,(1:N)[-sup][new])
     } else break
     if (it == maxIts || length(sup)/N >= percFull) break
+    
   }
   
   return(model)  
